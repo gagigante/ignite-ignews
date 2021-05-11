@@ -1,14 +1,14 @@
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
-import { SubscribeButton } from '../components/SubscribeButton';
-import { stripe } from '../services/stripe';
+import { GetStaticProps } from 'next'
+import Head from 'next/head'
+import { SubscribeButton } from '../components/SubscribeButton'
+import { stripe } from '../services/stripe'
 
-import styles from './home.module.scss';
+import styles from './home.module.scss'
 
 interface HomeProps {
   product: {
-    priceId: string;
-    amount: number;
+    priceId: string
+    amount: number
   }
 }
 
@@ -47,8 +47,8 @@ export default function Home({ product }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const DAY_DURATION_IN_HOURS = 60 * 60 * 24;
-  const price = await stripe.prices.retrieve('price_1IcXYgGbrOoXEjS5FRwEpXWt');
+  const DAY_DURATION_IN_HOURS = 60 * 60 * 24
+  const price = await stripe.prices.retrieve('price_1IcXYgGbrOoXEjS5FRwEpXWt')
 
   const product = {
     priceId: price.id,
