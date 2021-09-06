@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -63,10 +63,14 @@ export default function PostPreview({ post }: PostPreviewProps) {
   )
 }
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
     fallback: 'blocking'
+
+    // true: carrega a página no client side caso a página ainda não tenha sido gerada
+    // false: retorna 404 caso a página ainda não tenha sido gerada
+    // blocking: carrega a página no server side caso a página ainda não tenha sido gerada
   }
 }
 
@@ -87,9 +91,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   }
 
+  const HALF_HOUR_IN_SECONDS = 60 * 30;
+
   return {
     props: {
       post
-    }
+    },
+    revalidate: HALF_HOUR_IN_SECONDS
   }
 }
